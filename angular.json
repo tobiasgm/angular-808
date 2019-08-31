@@ -132,5 +132,10 @@
       }
     }
   },
-  "defaultProject": "angular808"
+  "defaultProject": "angular808",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

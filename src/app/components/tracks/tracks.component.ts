@@ -1,0 +1,61 @@
+import {Component, NgZone, OnInit} from '@angular/core';
+import {Track} from '../../model/track';
+import {TrackService} from '../../services/track.service';
+import {Router} from '@angular/router';
+import {AudioengineService} from '../../services/audioengine.service';
+import {Subscription} from 'rxjs';
+
+@Component({
+  selector: 'app-tracks',
+  templateUrl: './tracks.component.html',
+  styleUrls: ['./tracks.component.scss'],
+})
+export class TracksComponent implements OnInit {
+
+  selectedTrack: Track;
+  tracks: Array<Track>;
+  currentStep: number;
+  subscription: Subscription;
+
+  constructor(
+    private trackService: TrackService,
+    private audioengineService: AudioengineService,
+    private zone: NgZone,
+    private router: Router) {
+  }
+
+  ngOnInit() {
+    this.getTracks();
+    this.subscription = this.audioengineService.currentStep$
+      .subscribe(currentStep => {
+        this.zone.run(() => { // <== execute the changes in this callback.
+          this.currentStep = currentStep;
+        });
+      });
+  }
+
+  onSelect(track: Track): void {
+    this.selectedTrack = track;
+  }
+
+  onStepToggle(track: Track, step: number, i: number): void {
+    this.trackService.toggleStep(track, step, i);
+  }
+
+  getTracks(): void {
+    this.trackService.getTracks()
+      .subscribe(tracks => this.tracks = tracks);
+  }
+
+  remove(track: Track): void {
+    this.trackService.removeTrack(track);
+  }
+
+  edit(track: Track): void {
+    this.router.navigate(['track/', track.id]).then((e) => {
+      if (!e) {
+        console.log('Failed to navigate to track editor!');
+      }
+    });
+  }
+}

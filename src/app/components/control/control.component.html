@@ -1,0 +1,16 @@
+<div>
+  <button (click)="play()">Play</button>
+  <button (click)="stop()">Stop</button>
+  <input type='range'
+         [(ngModel)]="tempo"
+         (change)="setTempo(tempo)"
+         [defaultValue]=tempo
+         min=10
+         max=250/>{{tempo}}
+  <input type='range'
+         [(ngModel)]="volume"
+         (change)="setVolume(volume)"
+         [defaultValue]=volume
+         min=0
+         max=100/>
+</div>

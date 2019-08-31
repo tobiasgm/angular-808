@@ -1,0 +1,18 @@
+<h2>Tracks</h2>
+<div class="tracks">
+  <div class="track" *ngFor="let track of tracks"
+    [class.selected]="track === selectedTrack"
+    (click)="onSelect(track)">
+    <span class="badge">{{track.id}}</span> {{track.filename}}
+    <button (click)="remove(track)">Remove</button>
+    <button (click)="edit(track)">Edit</button>
+    <div class="steps" >
+      <div class="step s{{step}}"
+           *ngFor="let step of track.pattern; let i = index"
+           [class.active]="i === currentStep-1"
+           (click)="onStepToggle(track,step,i)">
+        {{step}}
+      </div>
+    </div>
+  </div>
+</div>
