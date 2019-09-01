@@ -1,10 +1,15 @@
 <div *ngIf="track">
-  <h2>{{track.filename| uppercase}} Edit Track</h2>
+  <h2>{{track.filename}} - Edit Track</h2>
   <div><span>id: </span>{{track.id}}</div>
   <div>
-    <label>name:
-      <input [(ngModel)]="track.filename" placeholder="name"/>
-    </label>
+    <form [formGroup]="trackEditForm">
+    <select formControlName="sampleSelect" (change)="setSample()">
+      <option [value]="sample"
+              *ngFor="let sample of samples">
+        {{sample}}
+      </option>
+    </select>
+    </form>
   </div>
   <button (click)="goBack()">go back</button>
 </div>

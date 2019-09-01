@@ -7,7 +7,7 @@ import { ControlComponent } from './components/control/control.component';
 import { TracksComponent } from './components/tracks/tracks.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TrackEditComponent } from './components/track-edit/track-edit.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
@@ -22,7 +22,8 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

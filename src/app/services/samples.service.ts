@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 export class SamplesService {
 
   url: string;
+  samples = ['Clap.wav', 'Kick.wav', 'Rimshot.wav', 'Snare.wav'];
 
   constructor(private http: HttpClient) {
     this.url = 'assets/sounds/';
