@@ -4,8 +4,6 @@ import {StereoPanner} from './web-audio/stereo-panner';
 
 export class Track {
   id: number;
-  volume: number;
-  pan: number;
   filename: string;
   pattern: Array<number>;
   audiobuffer: AudioBuffer;

@@ -60,11 +60,11 @@ export class AudioengineService {
           this.audioContext.decodeAudioData(data)
             .then(audioBuffer => {
               track.audiobuffer = audioBuffer;
-              track.buffer = new Buffer(this.audioContext);
-              track.inputgain = new Gain(this.audioContext);
-              track.stereopanner = new StereoPanner(this.audioContext);
+              if (track.buffer === null) { track.buffer = new Buffer(this.audioContext); }
+              if (track.inputgain === null) {track.inputgain = new Gain(this.audioContext); }
+              if (track.stereopanner === null) {track.stereopanner = new StereoPanner(this.audioContext); }
             })
-            .catch(e => console.log('Error decoding buffer.'));
+            .catch(e => console.log('Error decoding buffer: ' + e));
         });
     });
   }
@@ -120,7 +120,9 @@ export class AudioengineService {
   }
 
   playBuffer(deadline, track) {
-    track.buffer.connect(this.compressor);
+    track.buffer.connect(track.inputgain);
+    track.inputgain.connect(track.stereopanner);
+    track.stereopanner.connect(this.compressor);
     track.buffer.play(this.audioContext, deadline, track.audiobuffer);
   }
 

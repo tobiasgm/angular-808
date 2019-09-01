@@ -58,4 +58,12 @@ export class TracksComponent implements OnInit {
       }
     });
   }
+
+  setVolume(track: Track, volume: number): void {
+    this.trackService.setVolume(track, volume);
+  }
+
+  setPan(track: Track, pan: number): void {
+    this.trackService.setPan(track, pan);
+  }
 }

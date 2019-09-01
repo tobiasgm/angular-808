@@ -40,4 +40,14 @@ export class TrackService {
     this.TRACKS[index].pattern[i] = newValue;
   }
 
+  setVolume(track: Track, volume: number): void {
+    const index = this.TRACKS.indexOf(track);
+    this.TRACKS[index].inputgain.gain.value = volume;
+  }
+
+  setPan(track: Track, pan: number): void {
+    const index = this.TRACKS.indexOf(track);
+    this.TRACKS[index].stereopanner.pan.value = pan;
+  }
+
 }
