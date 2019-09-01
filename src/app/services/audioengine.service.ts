@@ -107,6 +107,10 @@ export class AudioengineService {
     }
   }
 
+  setVolume(volume) {
+    this.outputGain.gain.value = volume;
+  }
+
   playMetronome(deadline, pitch) {
     const oscillator = new Oscillator('triangle', this.audioContext);
     oscillator.connect(this.compressor);

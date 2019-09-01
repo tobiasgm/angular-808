@@ -17,6 +17,7 @@ export class ControlComponent implements OnInit {
     this.audioengineService.initAudioEngine(100, 16);
     this.audioengineService.initTracks();
     this.tempo = this.audioengineService.BPM;
+    this.volume = this.audioengineService.outputGain.gain.value;
   }
 
   play(): void {
@@ -32,7 +33,7 @@ export class ControlComponent implements OnInit {
   }
 
   setVolume(volume: number): void {
-    // TODO this.audioengineService.setVolume(volume);
+    this.audioengineService.setVolume(volume);
   }
 
 }

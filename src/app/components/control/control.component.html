@@ -3,14 +3,15 @@
   <button (click)="stop()">Stop</button>
   <input type='range'
          [(ngModel)]="tempo"
-         (change)="setTempo(tempo)"
+         (input)="setTempo(tempo)"
          [defaultValue]=tempo
          min=10
          max=250/>{{tempo}}
   <input type='range'
          [(ngModel)]="volume"
-         (change)="setVolume(volume)"
+         (input)="setVolume(volume)"
          [defaultValue]=volume
+         step=0.01
          min=0
-         max=100/>
+         max=1/>{{volume}}
 </div>
