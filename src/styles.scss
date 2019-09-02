@@ -4,6 +4,18 @@
 /*  */
 @import url('https://fonts.googleapis.com/css?family=Jura:400,600&display=swap&subset=latin-ext');
 
-h1, h2, p {
+h1, h2, h3, h4, h5, h6, p, input, div {
   font-family: 'Jura', sans-serif;
+  color: white;
+}
+
+h1 {
+  font-stretch: condensed;
+  border-bottom: 2px solid currentColor;
+  color: rgb(245, 93, 2);
+  line-height: 1.33;
+}
+
+body {
+  background: #111;
 }

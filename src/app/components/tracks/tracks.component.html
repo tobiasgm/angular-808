@@ -1,8 +1,8 @@
 <h2>Tracks</h2>
 <div class="tracks">
   <div class="track" *ngFor="let track of tracks"
-    [class.selected]="track === selectedTrack"
-    (click)="onSelect(track)">
+       [class.selected]="track === selectedTrack"
+       (click)="onSelect(track)">
     <span class="badge">{{track.id}}</span> {{track.filename}}
     <button (click)="remove(track)">Remove</button>
     <button (click)="edit(track)">Edit</button>
@@ -20,12 +20,17 @@
            step=0.01
            min=-1
            max=1/>{{track.stereopanner.pan.value}}
-    <div class="steps" >
+    <div class="steps">
       <div class="step s{{step}}"
            *ngFor="let step of track.pattern; let i = index"
            [class.active]="i === currentStep-1"
            (click)="onStepToggle(track,step,i)">
-        {{step}}
+        <div class="step-led-ring">
+          <div class="step-led">
+          </div>
+          <div class="step-led-light s{{step}}" [class.active]="i === currentStep-1">
+          </div>
+        </div>
       </div>
     </div>
   </div>
