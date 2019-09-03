@@ -73,4 +73,12 @@ export class TrackEditComponent implements OnInit {
     this.trackService.toggleStep(track, step, i);
   }
 
+  setVolume(track: Track, volume: number): void {
+    this.trackService.setVolume(track, volume);
+  }
+
+  setPan(track: Track, pan: number): void {
+    this.trackService.setPan(track, pan);
+  }
+
 }

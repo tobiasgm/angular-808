@@ -1,0 +1,13 @@
+<div class="steps">
+  <div class="step s{{step}}"
+       *ngFor="let step of track.pattern; let i = index"
+       [class.active]="i === currentStep-1"
+       (click)="toggleStep(step,i)">
+    <div class="step-led-ring">
+      <div class="step-led">
+      </div>
+      <div class="step-led-light s{{step}}" [class.active]="i === currentStep-1">
+      </div>
+    </div>
+  </div>
+</div>

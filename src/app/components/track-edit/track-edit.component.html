@@ -1,23 +1,46 @@
-<div *ngIf="track">
-  <h2>{{track.filename}} - Edit Track</h2>
-  <div><span>id: </span>{{track.id}}</div>
-  <div>
-    <form [formGroup]="trackEditForm">
-    <select formControlName="sampleSelect" (change)="setSample()">
-      <option [value]="sample"
-              *ngFor="let sample of samples">
-        {{sample}}
-      </option>
-    </select>
-    </form>
-  </div>
-  <div class="steps" >
-    <div class="step s{{step}}"
-         *ngFor="let step of track.pattern; let i = index"
-         [class.active]="i === currentStep-1"
-         (click)="onStepToggle(track,step,i)">
-      {{step}}
+<div class="track-edit" *ngIf="track">
+  <h2 class="badge">{{track.filename.replace('.wav', '')}}</h2>
+  <div class="control">
+    <div class="control-item">
+      <app-slider
+        [value]="track.inputgain?.gain.value"
+        [class]="'track-vol-slider'"
+        [id]="track.id + 'vol'"
+        [label]="'Volume'"
+        [step]=0.01
+        [min]=0
+        [max]=1
+        (sliderEvent)="setVolume(track, $event)">
+      </app-slider>
+      <app-slider
+        [value]="track.stereopanner?.pan.value"
+        [class]="'track-pan-slider'"
+        [label]="'Pan'"
+        [id]="track.id + 'pan'"
+        [step]=0.01
+        [min]=-1
+        [max]=1
+        (sliderEvent)="setPan(track, $event)">
+      </app-slider>
+    </div>
+    <div class="control-item">
+      <form [formGroup]="trackEditForm">
+        <select formControlName="sampleSelect" (change)="setSample()">
+          <option [value]="sample"
+                  *ngFor="let sample of samples">
+            {{sample.replace('.wav', '')}}
+          </option>
+        </select>
+      </form>
     </div>
   </div>
-  <button (click)="goBack()">go back</button>
+  <app-steps
+    [track]="track"
+    [currentStep]="currentStep"
+    (stepsEvent)="onStepToggle(track,$event.step,$event.i)"
+  ></app-steps>
+  <div class="track-edit-nav">
+    <button class="btn" (click)="goBack()">go back</button>
+  </div>
+
 </div>

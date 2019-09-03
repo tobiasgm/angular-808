@@ -1,21 +1,84 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~normalize.css';
 
+@mixin button-reset {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 /*  */
 @import url('https://fonts.googleapis.com/css?family=Jura:400,600&display=swap&subset=latin-ext');
 
+$dark-bg-color: #111 !default;
+$medium-bg-color: #222 !default;
+$light-bg-color: #333 !default;
+$label-color: rgb(245, 93, 2) !default;
+$palette1-color: rgb(225, 37, 0) !default;
+$palette2-color: rgb(241, 120, 0) !default;
+$palette3-color: rgb(222, 222, 5) !default;
+$palette4-color: rgb(235, 235, 204) !default;
+
 h1, h2, h3, h4, h5, h6, p, input, div {
   font-family: 'Jura', sans-serif;
-  color: white;
-}
-
-h1 {
-  font-stretch: condensed;
-  border-bottom: 2px solid currentColor;
-  color: rgb(245, 93, 2);
-  line-height: 1.33;
+  color: $palette4-color;
 }
 
 body {
-  background: #111;
+  background: $dark-bg-color;
 }
+
+/**
+ * Button component
+ */
+.btn {
+  @include button-reset;
+  /* default for <button>, but needed for <a> */
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+
+  margin: 2px 0;
+
+  border: solid 1px transparent;
+  border-radius: 2px;
+
+  padding: 0 1em;
+
+  color: $palette4-color;
+  background-color: $medium-bg-color;
+}
+
+/* old-school "down" effect on clic + color tweak */
+.btn:active {
+  transform: translateY(1px);
+  filter: saturate(150%);
+}
+
+/* inverse colors on hover */
+.btn:hover {
+  color: $dark-bg-color;
+  border-color: currentColor;
+  background-color: $palette3-color;
+}
+
+/* Firefox: remove the inner border shown on focus */
+.btn::-moz-focus-inner {
+  border: none;
+}
+
+/* make sure we have a visible focus ring */
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px $palette2-color,
+  0 0 0 0.5px $palette2-color;
+}
+
+/* hide focus style if not from keyboard navigation */
+.js-focus-visible .btn:focus:not(.focus-visible) {
+  box-shadow: none;
+}
+

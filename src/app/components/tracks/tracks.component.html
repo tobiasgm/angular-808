@@ -1,46 +1,41 @@
-<h2>Tracks</h2>
 <div class="tracks">
   <div class="track" *ngFor="let track of tracks"
        [class.selected]="track === selectedTrack"
        (click)="onSelect(track)">
-    <div class="track">
-      <span class="badge">{{track.id}}</span> {{track.filename}}
-      <button (click)="remove(track)">Remove</button>
-      <button (click)="edit(track)">Edit</button>
-      <app-slider
-        [value]="track.inputgain?.gain.value"
-        [class]="''"
-        [id]="track.id + 'vol'"
-        [label]="'Volume'"
-        [step]=0.01
-        [min]=0
-        [max]=1
-        (sliderEvent)="setVolume(track, $event)">
-      </app-slider>
-      <app-slider
-        [value]="track.stereopanner?.pan.value"
-        [class]="''"
-        [label]="'Pan'"
-        [id]="track.id + 'pan'"
-        [step]=0.01
-        [min]=-1
-        [max]=1
-        (sliderEvent)="setPan(track, $event)">
-      </app-slider>
-      <div class="steps">
-        <div class="step s{{step}}"
-             *ngFor="let step of track.pattern; let i = index"
-             [class.active]="i === currentStep-1"
-             (click)="onStepToggle(track,step,i)">
-          <div class="step-led-ring">
-            <div class="step-led">
-            </div>
-            <div class="step-led-light s{{step}}" [class.active]="i === currentStep-1">
-            </div>
-          </div>
-        </div>
+    <h2 class="badge">{{track.filename.replace('.wav','')}}</h2>
+    <div class="control">
+      <div class="control-item">
+        <app-slider
+          [value]="track.inputgain?.gain.value"
+          [class]="'track-vol-slider'"
+          [id]="track.id + 'vol'"
+          [label]="'Volume'"
+          [step]=0.01
+          [min]=0
+          [max]=1
+          (sliderEvent)="setVolume(track, $event)">
+        </app-slider>
+        <app-slider
+          [value]="track.stereopanner?.pan.value"
+          [class]="'track-pan-slider'"
+          [label]="'Pan'"
+          [id]="track.id + 'pan'"
+          [step]=0.01
+          [min]=-1
+          [max]=1
+          (sliderEvent)="setPan(track, $event)">
+        </app-slider>
+      </div>
+      <div class="control-item">
+      <button class="btn" (click)="remove(track)">Remove</button>
+      <button class="btn" (click)="edit(track)">Edit</button>
       </div>
     </div>
+    <app-steps
+      [track]="track"
+      [currentStep]="currentStep"
+      (stepsEvent)="onStepToggle(track,$event.step,$event.i)"
+    ></app-steps>
   </div>
   <app-nav></app-nav>
 </div>

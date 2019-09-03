@@ -9,7 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { TrackEditComponent } from './components/track-edit/track-edit.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { SliderComponent } from './components/tracks-slider/slider.component';
+import { SliderComponent } from './components/slider/slider.component';
+import { StepsComponent } from './components/steps/steps.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SliderComponent } from './components/tracks-slider/slider.component';
     ControlComponent,
     TracksComponent,
     TrackEditComponent,
-    SliderComponent
+    SliderComponent,
+    StepsComponent
   ],
   imports: [
     BrowserModule,

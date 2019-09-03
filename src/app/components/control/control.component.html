@@ -1,17 +1,28 @@
-<div>
-  <button (click)="play()">Play</button>
-  <button (click)="stop()">Stop</button>
-  <input type='range'
-         [(ngModel)]="tempo"
-         (input)="setTempo(tempo)"
-         [defaultValue]=tempo
-         min=10
-         max=250/>{{tempo}}
-  <input type='range'
-         [(ngModel)]="volume"
-         (input)="setVolume(volume)"
-         [defaultValue]=volume
-         step=0.01
-         min=0
-         max=1/>{{volume}}
+<div class="control">
+  <div class="control-item">
+    <button class="btn control-item" (click)="play()">Play</button>
+    <button class="btn control-item" (click)="stop()">Stop</button>
+  </div>
+  <div class="control-item">
+    <app-slider
+      [value]="tempo"
+      [class]="'master-tempo-slider'"
+      [label]="'Tempo'"
+      [id]="'tempo'"
+      [step]=1
+      [min]=-10
+      [max]=250
+      (sliderEvent)="setTempo($event)">
+    </app-slider>
+    <app-slider
+      [value]="volume"
+      [class]="'master-volume-slider'"
+      [label]="'Volume'"
+      [id]="'volume'"
+      [step]=0.01
+      [min]=0
+      [max]=1
+      (sliderEvent)="setVolume($event)">
+    </app-slider>
+  </div>
 </div>
