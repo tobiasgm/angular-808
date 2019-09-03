@@ -3,32 +3,40 @@
   <div class="track" *ngFor="let track of tracks"
        [class.selected]="track === selectedTrack"
        (click)="onSelect(track)">
-    <span class="badge">{{track.id}}</span> {{track.filename}}
-    <button (click)="remove(track)">Remove</button>
-    <button (click)="edit(track)">Edit</button>
-    <input type='range'
-           [(ngModel)]="track.inputgain.gain.value"
-           (input)="setVolume(track, track.inputgain.gain.value)"
-           [defaultValue]=track.inputgain.gain.value
-           step=0.01
-           min=0
-           max=1/>{{track.inputgain.gain.value}}
-    <input type='range'
-           [(ngModel)]="track.stereopanner.pan.value"
-           (input)="setPan(track, track.stereopanner.pan.value)"
-           [defaultValue]=track.stereopanner.pan.value
-           step=0.01
-           min=-1
-           max=1/>{{track.stereopanner.pan.value}}
-    <div class="steps">
-      <div class="step s{{step}}"
-           *ngFor="let step of track.pattern; let i = index"
-           [class.active]="i === currentStep-1"
-           (click)="onStepToggle(track,step,i)">
-        <div class="step-led-ring">
-          <div class="step-led">
-          </div>
-          <div class="step-led-light s{{step}}" [class.active]="i === currentStep-1">
+    <div class="track">
+      <span class="badge">{{track.id}}</span> {{track.filename}}
+      <button (click)="remove(track)">Remove</button>
+      <button (click)="edit(track)">Edit</button>
+      <app-slider
+        [value]="track.inputgain?.gain.value"
+        [class]="''"
+        [id]="track.id + 'vol'"
+        [label]="'Volume'"
+        [step]=0.01
+        [min]=0
+        [max]=1
+        (sliderEvent)="setVolume(track, $event)">
+      </app-slider>
+      <app-slider
+        [value]="track.stereopanner?.pan.value"
+        [class]="''"
+        [label]="'Pan'"
+        [id]="track.id + 'pan'"
+        [step]=0.01
+        [min]=-1
+        [max]=1
+        (sliderEvent)="setPan(track, $event)">
+      </app-slider>
+      <div class="steps">
+        <div class="step s{{step}}"
+             *ngFor="let step of track.pattern; let i = index"
+             [class.active]="i === currentStep-1"
+             (click)="onStepToggle(track,step,i)">
+          <div class="step-led-ring">
+            <div class="step-led">
+            </div>
+            <div class="step-led-light s{{step}}" [class.active]="i === currentStep-1">
+            </div>
           </div>
         </div>
       </div>

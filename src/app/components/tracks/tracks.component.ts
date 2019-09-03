@@ -44,7 +44,9 @@ export class TracksComponent implements OnInit {
 
   getTracks(): void {
     this.trackService.getTracks()
-      .subscribe(tracks => this.tracks = tracks);
+      .subscribe(tracks => {
+        this.tracks = tracks;
+      });
   }
 
   remove(track: Track): void {

@@ -1,3 +1,4 @@
+
 .track {
   width: 100%;
 }
@@ -8,9 +9,8 @@
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-
   /* Then we define how is distributed the remaining space */
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 .step {
@@ -25,6 +25,7 @@
   flex-direction: column;
   align-items: center;
   padding: 5px;
+  margin-right: 5px;
   width: 20px;
   height: 40px;
   margin-top: 10px;

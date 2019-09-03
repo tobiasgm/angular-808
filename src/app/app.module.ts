@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TrackEditComponent } from './components/track-edit/track-edit.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { SliderComponent } from './components/tracks-slider/slider.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {HttpClientModule} from '@angular/common/http';
     NavComponent,
     ControlComponent,
     TracksComponent,
-    TrackEditComponent
+    TrackEditComponent,
+    SliderComponent
   ],
   imports: [
     BrowserModule,
