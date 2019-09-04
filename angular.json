@@ -25,7 +25,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/WAAClock-latest.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
