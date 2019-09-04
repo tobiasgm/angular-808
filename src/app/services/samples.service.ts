@@ -9,16 +9,19 @@ export class SamplesService {
 
   url: string;
   samples = [
-    'Clap.wav',
-    'Clava.wav',
-    'CongasHi.wav',
-    'CongasLow.wav',
-    'CongasMid.wav',
-    'HiHatOpen.wav',
-    'HiHatClosed.wav',
-    'Kick.wav',
-    'Rimshot.wav',
-    'Snare.wav'];
+    'Clap.mp3',
+    'Clava.mp3',
+    'Congas_Hi.mp3',
+    'Congas_Low.mp3',
+    'Congas_Mid.mp3',
+    'Cowbell.mp3',
+    'Cymbal.mp3',
+    'HiHat_Open.mp3',
+    'HiHat_Closed.mp3',
+    'Kick.mp3',
+    'Maraca.mp3',
+    'Rimshot.mp3',
+    'Snare.mp3'];
 
   constructor(private http: HttpClient) {
     this.url = 'assets/sounds/';

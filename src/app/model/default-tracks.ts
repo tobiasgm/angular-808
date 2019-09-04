@@ -3,7 +3,7 @@ import {Track} from './track';
 export const DEFAULTTRACKS: Track[] = [
   {
     id: 1,
-    filename: 'Kick.wav',
+    filename: 'Kick.mp3',
     pattern: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
     buffer: null,
     inputgain: null,
@@ -12,7 +12,7 @@ export const DEFAULTTRACKS: Track[] = [
   },
   {
     id: 2,
-    filename: 'Snare.wav',
+    filename: 'Snare.mp3',
     pattern: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     buffer: null,
     inputgain: null,
@@ -21,7 +21,7 @@ export const DEFAULTTRACKS: Track[] = [
   },
   {
     id: 3,
-    filename: 'HiHatClosed.wav',
+    filename: 'HiHat_Closed.mp3',
     pattern: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
     buffer: null,
     inputgain: null,
@@ -32,7 +32,7 @@ export const DEFAULTTRACKS: Track[] = [
 
 export const NEWTRACK: Track = {
     id: 0,
-    filename: 'Rimshot.wav',
+    filename: 'Clava.mp3',
     pattern: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     buffer: null,
     inputgain: null,

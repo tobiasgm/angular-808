@@ -2,7 +2,7 @@
   <div class="track" *ngFor="let track of tracks"
        [class.selected]="track === selectedTrack"
        (click)="onSelect(track)">
-    <h2 class="badge">{{track.filename.replace('.wav','')}}</h2>
+    <h2 class="badge">{{track.filename.replace('.mp3','')}}</h2>
     <div class="control">
       <div class="control-item">
         <app-slider
