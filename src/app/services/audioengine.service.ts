@@ -104,6 +104,8 @@ export class AudioengineService {
     if (this.playing) {
       this.clock.timeStretch(this.audioContext.currentTime, [this.tickEvent], (this.BPM / 60) / (newBPM / 60));
       this.BPM = newBPM;
+    } else {
+      this.BPM = newBPM;
     }
   }
 
