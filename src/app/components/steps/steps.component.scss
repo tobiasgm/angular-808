@@ -1,3 +1,5 @@
+@import "variables";
+
 .steps {
   padding: 0;
   margin: 0;
@@ -19,20 +21,20 @@
   margin-bottom: 10px;
 }
 
-.step:nth-child(n+5) {
-  background-color: rgb(241, 120, 0);
+.step:nth-child(-n+4) {
+  background-color: $palette1-color;
 }
 
-.step:nth-child(-n+4) {
-  background-color: rgb(225, 37, 0);
+.step:nth-child(n+5) {
+  background-color: $palette2-color;
 }
 
 .step:nth-child(n+9) {
-  background-color: rgb(222, 222, 5);
+  background-color: $palette3-color;
 }
 
 .step:nth-child(n+13) {
-  background-color: rgb(235, 235, 204);
+  background-color: $palette4-color;
 }
 
 .step-led-ring {
@@ -45,7 +47,7 @@
   pointer-events: none;
 }
 
-.step-led {
+.step-led-dim {
   position: absolute;
   left: 1px;
   right: 1px;
