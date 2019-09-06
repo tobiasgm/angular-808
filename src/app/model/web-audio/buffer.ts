@@ -4,16 +4,17 @@ export class Buffer extends WebAudioNode {
 
   gain: GainNode;
   buffer: AudioBufferSourceNode;
-  input: GainNode;
+  input: AudioNode;
 
-  constructor(audioCtx) {
+  constructor(audioCtx: AudioContext, gain: number) {
     super();
+
     // use a gain stage as intermediate connection node
     this.gain = audioCtx.createGain();
     this.buffer = null;
 
     // set gain value
-    this.gain.gain.value = 1;
+    this.gain.gain.value = gain;
 
     // set WebAudioModule requirements
     this.input = this.gain;
@@ -43,7 +44,7 @@ export class Buffer extends WebAudioNode {
   setDetune(cents) {
     if (this.buffer) {
       this.buffer.detune.value = cents;
-    } // value in cents
+    }
   }
 
   setPlaybackRate(value) {

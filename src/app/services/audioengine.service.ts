@@ -37,18 +37,23 @@ export class AudioengineService {
     this.BPM = BPM;
     this.totalSteps = totalSteps;
     this.audioContext = new AudioContext();
+    this.setupAudioOutput();
+    this.clock = new WAAClock(this.audioContext, {toleranceEarly: 0.1});
+  }
+
+  setupAudioOutput(): void {
     this.outputGain = new Gain(this.audioContext);
     this.outputGain.gain.value = 1;
-    this.compressor = new Compressor(this.audioContext);
+    this.compressor = new Compressor(
+      this.audioContext, undefined, 30, 8, undefined, 0.1);
     this.compressor.connect(this.outputGain);
     this.outputGain.connect(this.audioContext.destination);
-    this.clock = new WAAClock(this.audioContext, {toleranceEarly: 0.1});
   }
 
   initTracks(): void {
     this.trackService.getTracks()
-      .subscribe(tracks => {
-        this.tracks = tracks;
+      .subscribe(result => {
+        this.tracks = result;
         this.loadBuffers();
       });
   }
@@ -60,9 +65,15 @@ export class AudioengineService {
           this.audioContext.decodeAudioData(data)
             .then(audioBuffer => {
               track.audiobuffer = audioBuffer;
-              if (track.buffer === null) { track.buffer = new Buffer(this.audioContext); }
-              if (track.inputgain === null) {track.inputgain = new Gain(this.audioContext); }
-              if (track.stereopanner === null) {track.stereopanner = new StereoPanner(this.audioContext); }
+              if (track.buffer === null) {
+                track.buffer = new Buffer(this.audioContext, 1);
+              }
+              if (track.inputgain === null) {
+                track.inputgain = new Gain(this.audioContext);
+              }
+              if (track.stereopanner === null) {
+                track.stereopanner = new StereoPanner(this.audioContext);
+              }
             })
             .catch(e => console.log('Error decoding buffer: ' + e));
         });
@@ -71,7 +82,6 @@ export class AudioengineService {
 
   play(): void {
     if (!this.playing) {
-      console.log('BPM' + this.BPM);
       this.audioContext.resume().then(() => {
         this.playing = true;
         this.clock.start();
@@ -83,6 +93,7 @@ export class AudioengineService {
   }
 
   handleTick({deadline}) {
+    // console.log(this.compressor.compressor.reduction)
     if (this.currentStep.getValue() < this.totalSteps) {
       this.currentStep.next(this.currentStep.getValue() + 1);
     } else {

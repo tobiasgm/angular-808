@@ -1,6 +1,6 @@
-export class WebAudioNode {
+export abstract class WebAudioNode {
 
-  output: any;
+  output: AudioNode;
 
   connect(node) {
     if (node.hasOwnProperty('input')) {

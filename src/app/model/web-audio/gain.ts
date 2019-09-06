@@ -2,23 +2,25 @@ import {WebAudioNode} from './web-audio-node';
 
 export class Gain extends WebAudioNode {
 
-  gain: any;
-  input: any;
-  output: any;
+  gainNode: GainNode;
+  gain: AudioParam;
+  input: AudioNode;
+  output: AudioNode;
 
-  constructor(audioCtx) {
+  constructor(audioCtx: AudioContext, gain: number = 1) {
     super();
-    this.gain = audioCtx.createGain();
+    this.gainNode = audioCtx.createGain();
+    console.log(this.gainNode);
 
     // set initial gain value
-    this.gain.gain.value = 1;
+    this.gainNode.gain.value = gain;
 
     // set WebAudioModule requirements
-    this.input = this.gain;
-    this.output = this.gain;
+    this.input = this.gainNode;
+    this.output = this.gainNode;
 
     // make amplitude parameter available for connection
-    this.gain = this.gain.gain;
+    this.gain = this.gainNode.gain;
   }
 
 }

@@ -48,15 +48,14 @@ function createPinkNoiseOsc(audioCtx) {
   return source;
 }
 
-
 export class Oscillator extends WebAudioNode {
 
   oscillator: any;
-  type: any;
-  frequency: any;
-  output: any;
+  type: string;
+  frequency: AudioParam;
+  output: AudioNode;
 
-  constructor(type, audioCtx) {
+  constructor(type: string, audioCtx: AudioContext) {
     super();
     this.type = type;
 

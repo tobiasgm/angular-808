@@ -3,15 +3,15 @@ import {WebAudioNode} from './web-audio-node';
 export class StereoPanner extends WebAudioNode {
 
   stereopanner: StereoPannerNode;
-  input: any;
-  pan: any;
+  input: AudioNode;
+  pan: AudioParam;
 
-  constructor(audioCtx) {
+  constructor(audioCtx: AudioContext, pan: number = 0.0) {
     super();
     this.stereopanner = audioCtx.createStereoPanner();
 
     // set initial pan value
-    this.stereopanner.pan.value = 0.0;
+    this.stereopanner.pan.value = pan;
     // set WebAudioModule requirements
     this.input = this.stereopanner;
     this.output = this.stereopanner;

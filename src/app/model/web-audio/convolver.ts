@@ -8,8 +8,8 @@ export class Convolver extends WebAudioNode {
   inputGain: GainNode;
   outputGain: GainNode;
   buffer: AudioBuffer;
-  input: any;
-  output: any;
+  input: AudioNode;
+  output: AudioNode;
 
   constructor(audioCtx, URL) {
     super();
@@ -51,10 +51,6 @@ export class Convolver extends WebAudioNode {
   setGain(value) {
     this.convGainNode.gain.value = value;
     this.bypassNode.gain.value = 1 - value;
-  }
-
-  loadBuffer(audioCtx) {
-
   }
 
   destroy() {
