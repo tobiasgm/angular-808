@@ -10,7 +10,6 @@ export class Gain extends WebAudioNode {
   constructor(audioCtx: AudioContext, gain: number = 1) {
     super();
     this.gainNode = audioCtx.createGain();
-    console.log(this.gainNode);
 
     // set initial gain value
     this.gainNode.gain.value = gain;

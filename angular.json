@@ -85,9 +85,14 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles/main.scss"
             ],
-            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
+            "scripts": [
+              "src/assets/js/WAAClock-latest.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
