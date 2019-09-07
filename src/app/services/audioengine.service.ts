@@ -92,6 +92,8 @@ export class AudioengineService {
         this.tickEvent = this.clock.callbackAtTime(this.handleTick.bind(this), this.audioContext.currentTime + 0.1)
           .repeat(1 / ((this.BPM / 60) * (this.totalSteps / 4)))
           .tolerance({late: 0.01});
+      }, () => {
+        console.error('Error! Could not resume audio context.');
       });
     }
   }
