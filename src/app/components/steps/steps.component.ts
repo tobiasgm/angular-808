@@ -10,7 +10,7 @@ export class StepsComponent implements OnInit {
 
   @Input() track: Track;
   @Input() currentStep: number;
-  @Output() stepsEvent = new EventEmitter<{step: number, i: number}>();
+  @Output() stepsEvent = new EventEmitter<{ step: number, i: number }>();
 
   constructor() {
   }

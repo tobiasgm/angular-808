@@ -1,5 +1,5 @@
 <div class="tracks">
-  <div class="track" *ngFor="let track of tracks"
+  <div class="track" *ngFor="let track of this.trackService.tracks$ | async"
        [class.selected]="track === selectedTrack"
        (click)="onSelect(track)">
     <h2 class="badge">{{track.filename.replace('.mp3','')}}</h2>
@@ -33,7 +33,7 @@
     </div>
     <app-steps
       [track]="track"
-      [currentStep]="currentStep"
+      [currentStep]="this.audioengineService.currentStep$ | async"
       (stepsEvent)="onStepToggle(track,$event.step,$event.i)"
     ></app-steps>
   </div>

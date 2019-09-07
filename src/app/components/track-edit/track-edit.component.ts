@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {TrackService} from '../../services/track.service';
 import {Track} from '../../model/track';
@@ -13,12 +13,11 @@ import {Subscription} from 'rxjs';
   templateUrl: './track-edit.component.html',
   styleUrls: ['./track-edit.component.scss']
 })
-export class TrackEditComponent implements OnInit {
+export class TrackEditComponent implements OnInit, OnDestroy {
 
   track: Track;
   samples: string[];
   trackEditForm: FormGroup;
-  currentStep: number;
   subscription: Subscription;
 
   constructor(private route: ActivatedRoute,
@@ -34,13 +33,15 @@ export class TrackEditComponent implements OnInit {
     this.getTrack();
     this.getSamples();
     this.subscription = this.audioengineService.currentStep$
-      .subscribe(result => {
-        this.zone.run(() => { // <== execute the changes in this callback.
-          this.currentStep = result;
-        });
+      .subscribe(() => {
+        this.zone.run(() => {});
       }, error => {
         console.error('Error! Could not get current sequencer step: ' + error);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   getTrack(): void {
@@ -52,7 +53,7 @@ export class TrackEditComponent implements OnInit {
           sampleSelect: this.track.filename,
         });
       }, error => {
-        console.error('Error! Could not get track: ' + error);
+        console.error('Error! Could not get track to edit: ' + error);
       });
   }
 

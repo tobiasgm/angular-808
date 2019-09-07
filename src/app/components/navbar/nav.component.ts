@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {TrackService} from '../../services/track.service';
-import {AudioengineService} from '../../services/audioengine.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,14 +8,13 @@ import {AudioengineService} from '../../services/audioengine.service';
 })
 export class NavComponent implements OnInit {
 
-  constructor(private trackService: TrackService, private audioengineService: AudioengineService) { }
+  constructor(private trackService: TrackService) { }
 
   ngOnInit() {
   }
 
   addTrack(): void {
     this.trackService.addTrack();
-    this.audioengineService.initTracks();
   }
 
 }

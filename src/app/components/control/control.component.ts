@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AudioengineService} from '../../services/audioengine.service';
+import {FilesService} from '../../services/files.service';
+import {TrackService} from '../../services/track.service';
 
 @Component({
   selector: 'app-control',
@@ -11,7 +13,10 @@ export class ControlComponent implements OnInit {
   tempo: number;
   volume: number;
 
-  constructor(private audioengineService: AudioengineService) {}
+  constructor(private audioengineService: AudioengineService,
+              private filesService: FilesService,
+              private trackService: TrackService) {
+  }
 
   ngOnInit(): void {
     this.audioengineService.initAudioEngine(100, 16);
@@ -34,6 +39,19 @@ export class ControlComponent implements OnInit {
 
   setVolume(volume: number): void {
     this.audioengineService.setVolume(volume);
+  }
+
+  download(): void {
+    this.filesService.downloadTracks();
+  }
+
+  upload(files: FileList): void {
+    this.filesService.loadTracksFromFile(files)
+      .subscribe(result => {
+        this.trackService.setTracks(result);
+      }, error => {
+        console.error('Error! Could not load tracks from file: ' + error);
+      });
   }
 
 }

@@ -23,7 +23,6 @@ export class AudioengineService {
   clock: any;
   BPM: number;
   totalSteps: number;
-  tracks: Array<Track>;
   playing: boolean;
   private currentStep = new BehaviorSubject<number>(0);
   currentStep$ = this.currentStep.asObservable();
@@ -33,7 +32,6 @@ export class AudioengineService {
   }
 
   static removeTrack(track: Track): void {
-    track.audiobuffer = null;
     track.buffer.disconnect();
     track.buffer.destroy();
     track.buffer = null;
@@ -41,6 +39,7 @@ export class AudioengineService {
     track.inputgain = null;
     track.stereopanner.disconnect();
     track.stereopanner = null;
+    track.audiobuffer = null;
   }
 
   initAudioEngine(BPM: number, totalSteps: number): void {
@@ -61,37 +60,36 @@ export class AudioengineService {
   }
 
   initTracks(): void {
-    this.trackService.getTracks()
+    this.trackService.tracks$
       .subscribe(result => {
-        this.tracks = result;
-        this.loadBuffers();
+        result.forEach(track => {
+          this.initTrack(track);
+        });
       }, error => {
         console.error('Error! Could not get tracks: ' + error);
-      });
+      }).unsubscribe();
   }
 
-  loadBuffers(): void {
-    this.tracks.forEach(track => {
-      this.samplesService.getSample(track.filename)
-        .subscribe(result => {
-          this.audioContext.decodeAudioData(result)
-            .then(audioBuffer => {
-              track.audiobuffer = audioBuffer;
-              if (track.buffer === null) {
-                track.buffer = new Buffer(this.audioContext, 1);
-              }
-              if (track.inputgain === null) {
-                track.inputgain = new Gain(this.audioContext);
-              }
-              if (track.stereopanner === null) {
-                track.stereopanner = new StereoPanner(this.audioContext);
-              }
-            })
-            .catch(e => console.log('Error decoding buffer: ' + e));
-        }, error => {
-          console.error('Error! Could not get samples: ' + error);
-        });
-    });
+  initTrack(track: Track) {
+    this.samplesService.getSample(track.filename)
+      .subscribe(sample => {
+        this.audioContext.decodeAudioData(sample)
+          .then(audioBuffer => {
+            track.audiobuffer = audioBuffer;
+            if (track.buffer === null) {
+              track.buffer = new Buffer(this.audioContext, 1);
+            }
+            if (track.inputgain === null) {
+              track.inputgain = new Gain(this.audioContext);
+            }
+            if (track.stereopanner === null) {
+              track.stereopanner = new StereoPanner(this.audioContext);
+            }
+          })
+          .catch(e => console.error('Error decoding buffer: ' + e));
+      }, error => {
+        console.error('Error! Could not get samples: ' + error);
+      });
   }
 
   play(): void {
@@ -118,11 +116,16 @@ export class AudioengineService {
   }
 
   stepTrigger(deadline: number) {
-    this.tracks.forEach(track => {
-      if (track.pattern[this.currentStep.getValue() - 1] === 1) {
-        this.playBuffer(deadline, track);
-      }
-    });
+    this.trackService.tracks$
+      .subscribe(result => {
+        result.forEach(track => {
+          if (track.pattern[this.currentStep.getValue() - 1] === 1) {
+            this.playBuffer(deadline, track);
+          }
+        });
+      }, error => {
+        console.error('Error! Could not get tracks: ' + error);
+      }).unsubscribe();
   }
 
   setTempo(newBPM: number) {
@@ -148,10 +151,14 @@ export class AudioengineService {
   }
 
   playBuffer(deadline: number, track: Track) {
-    track.buffer.connect(track.inputgain);
-    track.inputgain.connect(track.stereopanner);
-    track.stereopanner.connect(this.compressor);
-    track.buffer.play(this.audioContext, deadline, track.audiobuffer);
+    if (track.buffer) {
+      track.buffer.connect(track.inputgain);
+      track.inputgain.connect(track.stereopanner);
+      track.stereopanner.connect(this.compressor);
+      track.buffer.play(this.audioContext, deadline, track.audiobuffer);
+    } else {
+      this.initTrack(track);
+    }
   }
 
   stop(): void {

@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Track} from '../../model/track';
 import {TrackService} from '../../services/track.service';
 import {Router} from '@angular/router';
@@ -10,11 +10,9 @@ import {Subscription} from 'rxjs';
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.scss'],
 })
-export class TracksComponent implements OnInit {
+export class TracksComponent implements OnInit, OnDestroy {
 
   selectedTrack: Track;
-  tracks: Array<Track>;
-  currentStep: number;
   subscription: Subscription;
 
   constructor(
@@ -25,15 +23,16 @@ export class TracksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getTracks();
     this.subscription = this.audioengineService.currentStep$
-      .subscribe(result => {
-        this.zone.run(() => { // <== execute the changes in this callback.
-          this.currentStep = result;
-        });
+      .subscribe(() => {
+        this.zone.run(() => {});
       }, error => {
-        console.error('Error! Could not get current sequencer step: ' + error);
+        console.error('Error! Could not get current step: ' + error);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onSelect(track: Track): void {
@@ -42,15 +41,6 @@ export class TracksComponent implements OnInit {
 
   onStepToggle(track: Track, step: number, i: number): void {
     this.trackService.toggleStep(track, step, i);
-  }
-
-  getTracks(): void {
-    this.trackService.getTracks()
-      .subscribe(result => {
-        this.tracks = result;
-      }, error => {
-        console.error('Error! Could not get tracks: ' + error);
-      });
   }
 
   remove(track: Track): void {

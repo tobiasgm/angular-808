@@ -36,7 +36,7 @@
   </div>
   <app-steps
     [track]="track"
-    [currentStep]="currentStep"
+    [currentStep]="this.audioengineService.currentStep$ | async"
     (stepsEvent)="onStepToggle(track,$event.step,$event.i)"
   ></app-steps>
   <div class="track-edit-nav">
