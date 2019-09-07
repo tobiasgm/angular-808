@@ -34,30 +34,35 @@ export class TrackEditComponent implements OnInit {
     this.getTrack();
     this.getSamples();
     this.subscription = this.audioengineService.currentStep$
-      .subscribe(currentStep => {
+      .subscribe(result => {
         this.zone.run(() => { // <== execute the changes in this callback.
-          this.currentStep = currentStep;
+          this.currentStep = result;
         });
+      }, error => {
+        console.error('Error! Could not get current sequencer step: ' + error);
       });
   }
 
   getTrack(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.trackService.getTrack(id)
-      .subscribe(track => {
-        this.track = track;
+      .subscribe(result => {
+        this.track = result;
         this.trackEditForm = this.formbuilder.group({
           sampleSelect: this.track.filename,
         });
+      }, error => {
+        console.error('Error! Could not get track: ' + error);
       });
   }
 
   getSamples(): void {
     this.samplesService.getSamples()
-      .subscribe(
-        samples => {
-          this.samples = samples;
-        });
+      .subscribe(result => {
+        this.samples = result;
+      }, error => {
+        console.error('Error! Could not get samples: ' + error);
+      });
   }
 
   setSample(): void {

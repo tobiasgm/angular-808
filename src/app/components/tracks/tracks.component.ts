@@ -27,10 +27,12 @@ export class TracksComponent implements OnInit {
   ngOnInit() {
     this.getTracks();
     this.subscription = this.audioengineService.currentStep$
-      .subscribe(currentStep => {
+      .subscribe(result => {
         this.zone.run(() => { // <== execute the changes in this callback.
-          this.currentStep = currentStep;
+          this.currentStep = result;
         });
+      }, error => {
+        console.error('Error! Could not get current sequencer step: ' + error);
       });
   }
 
@@ -44,8 +46,10 @@ export class TracksComponent implements OnInit {
 
   getTracks(): void {
     this.trackService.getTracks()
-      .subscribe(tracks => {
-        this.tracks = tracks;
+      .subscribe(result => {
+        this.tracks = result;
+      }, error => {
+        console.error('Error! Could not get tracks: ' + error);
       });
   }
 

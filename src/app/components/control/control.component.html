@@ -1,9 +1,9 @@
 <div class="control">
-  <div class="control-item">
-    <button class="btn control-item" (click)="play()">Play</button>
-    <button class="btn control-item" (click)="stop()">Stop</button>
+  <div class="control-group">
+    <button class="btn control-group" (click)="play()">Play</button>
+    <button class="btn control-group" (click)="stop()">Stop</button>
   </div>
-  <div class="control-item">
+  <div class="control-group">
     <app-slider
       [value]="tempo"
       [class]="'master-tempo-slider'"

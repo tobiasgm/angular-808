@@ -37,11 +37,11 @@ export class AudioengineService {
     this.BPM = BPM;
     this.totalSteps = totalSteps;
     this.audioContext = new AudioContext();
-    this.setupAudioOutput();
+    this.connectOutput();
     this.clock = new WAAClock(this.audioContext, {toleranceEarly: 0.1});
   }
 
-  setupAudioOutput(): void {
+  connectOutput(): void {
     this.outputGain = new Gain(this.audioContext);
     this.outputGain.gain.value = 1;
     this.compressor = new Compressor(
@@ -55,14 +55,16 @@ export class AudioengineService {
       .subscribe(result => {
         this.tracks = result;
         this.loadBuffers();
+      }, error => {
+        console.error('Error! Could not get tracks: ' + error);
       });
   }
 
   loadBuffers(): void {
     this.tracks.forEach(track => {
       this.samplesService.getSample(track.filename)
-        .subscribe((data: any) => {
-          this.audioContext.decodeAudioData(data)
+        .subscribe(result => {
+          this.audioContext.decodeAudioData(result)
             .then(audioBuffer => {
               track.audiobuffer = audioBuffer;
               if (track.buffer === null) {
@@ -76,6 +78,8 @@ export class AudioengineService {
               }
             })
             .catch(e => console.log('Error decoding buffer: ' + e));
+        }, error => {
+          console.error('Error! Could not get samples: ' + error);
         });
     });
   }

@@ -1,16 +1,18 @@
+@import "variables";
+
 .control {
   width: 80%;
   max-width: 800px;
   margin: 0 auto 10px;
   padding: 5px 0 5px 0;
-  background: #333333;
+  background: $light-bg-color;
   border-radius: 2px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
 }
 
-.control-item {
+.control-group {
   vertical-align: top;
   margin: 2px 5px 0 5px;
 }
