@@ -55,6 +55,7 @@ export class TracksComponent implements OnInit {
 
   remove(track: Track): void {
     this.trackService.removeTrack(track);
+    AudioengineService.removeTrack(track);
   }
 
   edit(track: Track): void {

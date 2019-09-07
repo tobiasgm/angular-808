@@ -16,11 +16,11 @@ declare var WAAClock: any;
 })
 export class AudioengineService {
 
-  clock: any;
   audioContext: AudioContext;
   outputGain: Gain;
   compressor: Compressor;
   tickEvent: any;
+  clock: any;
   BPM: number;
   totalSteps: number;
   tracks: Array<Track>;
@@ -30,6 +30,17 @@ export class AudioengineService {
 
   constructor(private trackService: TrackService,
               private samplesService: SamplesService) {
+  }
+
+  static removeTrack(track: Track): void {
+    track.audiobuffer = null;
+    track.buffer.disconnect();
+    track.buffer.destroy();
+    track.buffer = null;
+    track.inputgain.disconnect();
+    track.inputgain = null;
+    track.stereopanner.disconnect();
+    track.stereopanner = null;
   }
 
   initAudioEngine(BPM: number, totalSteps: number): void {
@@ -42,8 +53,7 @@ export class AudioengineService {
   }
 
   connectOutput(): void {
-    this.outputGain = new Gain(this.audioContext);
-    this.outputGain.gain.value = 1;
+    this.outputGain = new Gain(this.audioContext, 1);
     this.compressor = new Compressor(
       this.audioContext, undefined, 30, 8, undefined, 0.1);
     this.compressor.connect(this.outputGain);
@@ -93,13 +103,12 @@ export class AudioengineService {
           .repeat(1 / ((this.BPM / 60) * (this.totalSteps / 4)))
           .tolerance({late: 0.01});
       }, () => {
-        console.error('Error! Could not resume audio context.');
+        console.error('Error! Could not resume audio.');
       });
     }
   }
 
-  handleTick({deadline}) {
-    // console.log(this.compressor.compressor.reduction)
+  handleTick({deadline}: { deadline: number }) {
     if (this.currentStep.getValue() < this.totalSteps) {
       this.currentStep.next(this.currentStep.getValue() + 1);
     } else {
@@ -108,37 +117,37 @@ export class AudioengineService {
     this.stepTrigger(deadline);
   }
 
-  stepTrigger(deadline) {
+  stepTrigger(deadline: number) {
     this.tracks.forEach(track => {
       if (track.pattern[this.currentStep.getValue() - 1] === 1) {
         this.playBuffer(deadline, track);
       }
     });
-    // this.playMetronome(deadline, 4440);
   }
 
-  setTempo(newBPM) {
+  setTempo(newBPM: number) {
     if (this.playing) {
-      this.clock.timeStretch(this.audioContext.currentTime, [this.tickEvent], (this.BPM / 60) / (newBPM / 60));
+      const timeFactor = (this.BPM / 60) / (newBPM / 60);
+      this.clock.timeStretch(this.audioContext.currentTime, [this.tickEvent], timeFactor);
       this.BPM = newBPM;
     } else {
       this.BPM = newBPM;
     }
   }
 
-  setVolume(volume) {
+  setVolume(volume: number) {
     this.outputGain.gain.value = volume;
   }
 
-  playMetronome(deadline, pitch) {
+  playMetronome(deadline: number, pitch: number, length: number) {
     const oscillator = new Oscillator('triangle', this.audioContext);
     oscillator.connect(this.compressor);
     oscillator.frequency.value = pitch;
     oscillator.start(deadline);
-    oscillator.stop(deadline + 0.0001);
+    oscillator.stop(deadline + length);
   }
 
-  playBuffer(deadline, track) {
+  playBuffer(deadline: number, track: Track) {
     track.buffer.connect(track.inputgain);
     track.inputgain.connect(track.stereopanner);
     track.stereopanner.connect(this.compressor);
