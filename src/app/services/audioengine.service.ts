@@ -8,6 +8,7 @@ import {Track} from '../model/track';
 import {SamplesService} from './samples.service';
 import {BehaviorSubject} from 'rxjs';
 import {StereoPanner} from '../model/web-audio/stereo-panner';
+import {Convolver} from '../model/web-audio/convolver';
 
 declare var WAAClock: any;
 
@@ -39,6 +40,8 @@ export class AudioengineService {
     track.inputgain = null;
     track.stereopanner.disconnect();
     track.stereopanner = null;
+    track.convolver.destroy();
+    track.convolver = null;
     track.audiobuffer = null;
   }
 
@@ -84,6 +87,10 @@ export class AudioengineService {
             }
             if (track.stereopanner === null) {
               track.stereopanner = new StereoPanner(this.audioContext);
+            }
+            if (track.convolver === null) {
+              track.convolver = new Convolver(
+                this.audioContext, 'assets/sounds/impulseresponse1.wav');
             }
           })
           .catch(e => console.error('Error decoding buffer: ' + e));
@@ -154,7 +161,8 @@ export class AudioengineService {
     if (track.buffer) {
       track.buffer.connect(track.inputgain);
       track.inputgain.connect(track.stereopanner);
-      track.stereopanner.connect(this.compressor);
+      track.stereopanner.connect(track.convolver);
+      track.convolver.connect(this.compressor);
       track.buffer.play(this.audioContext, deadline, track.audiobuffer);
     } else {
       this.initTrack(track);

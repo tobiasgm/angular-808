@@ -11,13 +11,14 @@ export class Convolver extends WebAudioNode {
   input: AudioNode;
   output: AudioNode;
 
-  constructor(audioCtx, URL) {
+  constructor(audioCtx: AudioContext, URL: string) {
     super();
-    // use a gain stage as intermediate connection node
+
     this.buffer = null;
 
+    // use a gain stage as intermediate connection node
     // this.inputGain -> convNode (Convolver) -> convGainNode (Gain) -> this.outputGain
-    //           ->            thisbypassNode (Gain)            ->
+    //                ->            thisbypassNode (Gain)            ->
     this.convNode = audioCtx.createConvolver();
     this.convGainNode = audioCtx.createGain();
     this.bypassNode = audioCtx.createGain();
@@ -30,9 +31,11 @@ export class Convolver extends WebAudioNode {
     this.convGainNode.connect(this.outputGain);
     this.bypassNode.connect(this.outputGain);
 
-    // set gain value
+    // set gain values
     this.inputGain.gain.value = 1;
     this.outputGain.gain.value = 1;
+    this.convGainNode.gain.value = 0.5;
+    this.bypassNode.gain.value = 0.5;
 
     // set WebAudioModule requirements
     this.input = this.inputGain;
@@ -43,9 +46,8 @@ export class Convolver extends WebAudioNode {
       .then(response => audioCtx.decodeAudioData(response, (audioBuffer) => {
         this.buffer = audioBuffer;
         this.convNode.buffer = this.buffer;
-        // console.log("loaded", this.buffer);
       }))
-      .catch(e => console.log('error: ', e));
+      .catch(e => console.log('Error loading buffer: ', e));
   }
 
   setGain(value) {

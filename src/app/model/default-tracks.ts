@@ -8,6 +8,7 @@ export const DEFAULTTRACKS: Track[] = [
     buffer: null,
     inputgain: null,
     stereopanner: null,
+    convolver: null,
     audiobuffer: null
   },
   {
@@ -17,6 +18,7 @@ export const DEFAULTTRACKS: Track[] = [
     buffer: null,
     inputgain: null,
     stereopanner: null,
+    convolver: null,
     audiobuffer: null
   },
   {
@@ -26,6 +28,7 @@ export const DEFAULTTRACKS: Track[] = [
     buffer: null,
     inputgain: null,
     stereopanner: null,
+    convolver: null,
     audiobuffer: null
   }
 ];
@@ -37,5 +40,6 @@ export const NEWTRACK: Track = {
     buffer: null,
     inputgain: null,
     stereopanner: null,
+    convolver: null,
     audiobuffer: null
   };

@@ -13,7 +13,7 @@ export class FilesService {
 
   static replacer(name: string, value: any) {
     if (name === 'stereopanner' || name === 'inputgain' ||
-      name === 'buffer' || name === 'audiobuffer') {
+      name === 'buffer' || name === 'audiobuffer' || name === 'convolver') {
       return null;
     } else {
       return value;
