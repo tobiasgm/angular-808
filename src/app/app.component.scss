@@ -1,5 +1,11 @@
 @import "variables";
 
+.container {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
 header {
 }
 
@@ -19,4 +25,9 @@ p {
 }
 
 footer {
+}
+
+.app-control {
+  flex-grow: 1;
+  background-color: $light-bg-color;
 }
