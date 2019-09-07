@@ -40,12 +40,12 @@ export class Convolver extends WebAudioNode {
 
     window.fetch(URL)
       .then(response => response.arrayBuffer())
-      .catch(e => console.log('error: ', e))
       .then(response => audioCtx.decodeAudioData(response, (audioBuffer) => {
         this.buffer = audioBuffer;
         this.convNode.buffer = this.buffer;
         // console.log("loaded", this.buffer);
-      }));
+      }))
+      .catch(e => console.log('error: ', e));
   }
 
   setGain(value) {
