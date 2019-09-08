@@ -6,7 +6,7 @@
     <div class="control">
       <div class="control-item">
         <app-slider
-          [value]="track.inputgain?.gain.value"
+          [value]="track.inputgainValue"
           [class]="'track-vol-slider'"
           [id]="track.id + 'vol'"
           [label]="'Volume'"
@@ -16,7 +16,7 @@
           (sliderEvent)="setVolume(track, $event)">
         </app-slider>
         <app-slider
-          [value]="track.stereopanner?.pan.value"
+          [value]="track.stereopannerValue"
           [class]="'track-pan-slider'"
           [label]="'Pan'"
           [id]="track.id + 'pan'"
@@ -26,14 +26,14 @@
           (sliderEvent)="setPan(track, $event)">
         </app-slider>
         <app-slider
-          [value]="track.convolver?.convGainNode.gain.value"
+          [value]="track.convolverValue"
           [class]="'track-reverb-slider'"
           [label]="'Reverb'"
           [id]="track.id + 'reverb'"
           [step]=0.01
           [min]=0
           [max]=1
-          (sliderEvent)="track.convolver?.setGain($event)">
+          (sliderEvent)="setReverbSend(track, $event)">
         </app-slider>
       </div>
       <div class="control-item">

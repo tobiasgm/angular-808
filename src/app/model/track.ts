@@ -9,7 +9,10 @@ export class Track {
   pattern: Array<number>;
   audiobuffer: AudioBuffer;
   inputgain: Gain;
+  inputgainValue: number;
   stereopanner: StereoPanner;
+  stereopannerValue: number;
   convolver: Convolver;
+  convolverValue: number;
   buffer: Buffer;
 }

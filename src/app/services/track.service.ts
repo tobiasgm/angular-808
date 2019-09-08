@@ -44,11 +44,19 @@ export class TrackService {
   setVolume(track: Track, volume: number): void {
     const index = this.tracks.value.indexOf(track);
     this.tracks.value[index].inputgain.gain.value = volume;
+    this.tracks.value[index].inputgainValue = volume;
   }
 
   setPan(track: Track, pan: number): void {
     const index = this.tracks.value.indexOf(track);
     this.tracks.value[index].stereopanner.pan.value = pan;
+    this.tracks.value[index].stereopannerValue = pan;
+  }
+
+  setReverbSend(track: Track, reverbSend: number): void {
+    const index = this.tracks.value.indexOf(track);
+    this.tracks.value[index].convolver.setGain(reverbSend);
+    this.tracks.value[index].convolverValue = reverbSend;
   }
 
 }

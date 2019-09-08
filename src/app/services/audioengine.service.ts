@@ -84,13 +84,16 @@ export class AudioengineService {
             }
             if (track.inputgain === null) {
               track.inputgain = new Gain(this.audioContext);
+              track.inputgain.gain.value = track.inputgainValue;
             }
             if (track.stereopanner === null) {
               track.stereopanner = new StereoPanner(this.audioContext);
+              track.stereopanner.pan.value = track.stereopannerValue;
             }
             if (track.convolver === null) {
               track.convolver = new Convolver(
                 this.audioContext, 'assets/sounds/impulseresponse1.wav');
+              track.convolver.setGain(track.convolverValue);
             }
           })
           .catch(e => console.error('Error decoding buffer: ' + e));
@@ -160,9 +163,10 @@ export class AudioengineService {
   playBuffer(deadline: number, track: Track) {
     if (track.buffer) {
       track.buffer.connect(track.inputgain);
+      track.buffer.connect(track.convolver);
       track.inputgain.connect(track.stereopanner);
-      track.stereopanner.connect(track.convolver);
-      track.convolver.connect(this.compressor);
+      track.convolver.connect(track.stereopanner);
+      track.stereopanner.connect(this.compressor);
       track.buffer.play(this.audioContext, deadline, track.audiobuffer);
     } else {
       this.initTrack(track);

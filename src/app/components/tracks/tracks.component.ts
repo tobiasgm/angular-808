@@ -25,7 +25,8 @@ export class TracksComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.audioengineService.currentStep$
       .subscribe(() => {
-        this.zone.run(() => {});
+        this.zone.run(() => {
+        });
       }, error => {
         console.error('Error! Could not get current step: ' + error);
       });
@@ -63,4 +64,9 @@ export class TracksComponent implements OnInit, OnDestroy {
   setPan(track: Track, pan: number): void {
     this.trackService.setPan(track, pan);
   }
+
+  setReverbSend(track: Track, reverbSend: number): void {
+    this.trackService.setReverbSend(track, reverbSend);
+  }
+
 }

@@ -2,7 +2,6 @@
   <div class="control-group">
     <button class="btn control-group" (click)="play()">Play</button>
     <button class="btn control-group" (click)="stop()">Stop</button>
-
   </div>
   <div class="control-group">
     <app-slider
@@ -29,9 +28,11 @@
 </div>
 <div>
   <button class="btn control-group" (click)="download()">Download</button>
+  <label for="file">Upload file: </label>
   <input
     #fileInput
     type="file"
+    id="file"
     [multiple]="false"
     (change)="upload( fileInput.files ) ; fileInput.value = null;"/>
 </div>
