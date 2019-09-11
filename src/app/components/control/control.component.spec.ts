@@ -1,6 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ControlComponent } from './control.component';
+import {ControlComponent} from './control.component';
+import {SliderComponent} from '../slider/slider.component';
+
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('ControlComponent', () => {
   let component: ControlComponent;
@@ -8,9 +12,15 @@ describe('ControlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ControlComponent ]
+      declarations: [
+        ControlComponent,
+        SliderComponent],
+      imports: [
+        FormsModule,
+        HttpClientModule
+      ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,7 +1,9 @@
 import { Buffer } from './buffer';
 
+const audioContext = new AudioContext();
+
 describe('Buffer', () => {
   it('should create an instance', () => {
-    expect(new Buffer(null, null)).toBeTruthy();
+    expect(new Buffer(audioContext, 1)).toBeTruthy();
   });
 });
